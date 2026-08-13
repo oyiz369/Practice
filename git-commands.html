@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git Command Reference</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --code-bg: #f2f4f7;
+    --text: #1c2024;
+    --muted: #626b75;
+    --border: #e2e6ea;
+    --accent: #d4522a;
+    --accent-soft: #fdf0eb;
+    --adv: #5b46c4;
+    --adv-soft: #f0edfb;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181c;
+      --panel: #1e2126;
+      --code-bg: #14161a;
+      --text: #e6e8ea;
+      --muted: #969ea8;
+      --border: #2c3138;
+      --accent: #f0764e;
+      --accent-soft: #2a1c17;
+      --adv: #a496f0;
+      --adv-soft: #201c33;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* ---------- header ---------- */
+  header {
+    padding: 48px 0 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 34px;
+    letter-spacing: -0.02em;
+  }
+  header p { margin: 0; color: var(--muted); max-width: 60ch; }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+    padding: 14px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  #search {
+    flex: 1 1 260px;
+    min-width: 200px;
+    padding: 9px 12px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  #search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .jump {
+    display: inline-block;
+    padding: 8px 13px;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--muted);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .jump:hover { color: var(--text); border-color: var(--muted); }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 44px; }
+  .section-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .section-head h2 { margin: 0; font-size: 25px; letter-spacing: -0.01em; }
+  .tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+  #advanced .tag { color: var(--adv); background: var(--adv-soft); }
+  .section-head + p { margin: 0 0 22px; color: var(--muted); }
+
+  /* ---------- cards ---------- */
+  .cmd {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .cmd > h3 {
+    margin: 0 0 4px;
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  #advanced .cmd > h3 { color: var(--adv); }
+  .desc { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+
+  pre {
+    margin: 0;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 15px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.75;
+    tab-size: 2;
+  }
+  pre .c { color: var(--muted); }
+
+  .hidden { display: none; }
+  .empty { color: var(--muted); padding: 30px 0; display: none; }
+  .empty.show { display: block; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+  }
+  footer code { font-family: var(--mono); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Git Command Reference</h1>
+  <p>Everyday commands you reach for constantly, and the sharper tools you pull out when something has gone sideways. Every entry ships with copy-ready usage samples.</p>
+</header>
+
+<div class="toolbar">
+  <input id="search" type="search" placeholder="Filter commands… (e.g. rebase, stash, undo)" autocomplete="off">
+  <a class="jump" href="#frequent">Frequently Used</a>
+  <a class="jump" href="#advanced">Advanced</a>
+</div>
+
+<p class="empty" id="empty">No commands match that filter.</p>
+
+<!-- ============================= FREQUENTLY USED ============================= -->
+<section id="frequent">
+  <div class="section-head">
+    <h2>Frequently Used Commands</h2>
+    <span class="tag">Daily driver</span>
+  </div>
+  <p>The core loop: get a repo, see what changed, stage it, commit it, sync it.</p>
+
+  <div class="cmd">
+    <h3>git init</h3>
+    <p class="desc">Create a brand-new repository in the current directory.</p>
+<pre><span class="c"># start tracking the folder you are standing in</span>
+git init
+
+<span class="c"># create the folder and initialize it in one step</span>
+git init my-project
+
+<span class="c"># initialize with "main" as the default branch name</span>
+git init -b main</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git clone</h3>
+    <p class="desc">Copy an existing remote repository, with its full history, onto your machine.</p>
+<pre>git clone https://github.com/user/repo.git
+
+<span class="c"># clone into a differently named folder</span>
+git clone https://github.com/user/repo.git my-folder
+
+<span class="c"># only the latest commit — much faster for big repos</span>
+git clone --depth 1 https://github.com/user/repo.git
+
+<span class="c"># clone a specific branch only</span>
+git clone -b develop --single-branch https://github.com/user/repo.git</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git config</h3>
+    <p class="desc">Set your identity and preferences. Do this once per machine before your first commit.</p>
+<pre><span class="c"># identity used on every commit you author (--global = all repos)</span>
+git config --global user.name "Temitope Joseph"
+git config --global user.email "you@example.com"
+
+<span class="c"># override identity for just this one repo (omit --global)</span>
+git config user.email "work@company.com"
+
+<span class="c"># handy defaults</span>
+git config --global init.defaultBranch main
+git config --global pull.rebase true
+git config --global core.editor "code --wait"
+
+<span class="c"># make an alias: `git lg` for a pretty log</span>
+git config --global alias.lg "log --oneline --graph --decorate --all"
+
+<span class="c"># inspect what is currently set, and where it came from</span>
+git config --list --show-origin
+git config user.email</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git status</h3>
+    <p class="desc">Show which files are staged, modified, or untracked. Run it constantly — it is free.</p>
+<pre>git status
+
+<span class="c"># compact one-line-per-file output</span>
+git status -s
+
+<span class="c"># short output plus the current branch line</span>
+git status -sb
+
+<span class="c"># include files hidden by .gitignore</span>
+git status --ignored</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git add</h3>
+    <p class="desc">Stage changes for the next commit.</p>
+<pre><span class="c"># one file</span>
+git add index.html
+
+<span class="c"># everything in the current directory and below</span>
+git add .
+
+<span class="c"># every change in the repo, wherever you are standing</span>
+git add -A
+
+<span class="c"># only files git already tracks (skips new/untracked files)</span>
+git add -u
+
+<span class="c"># pattern match</span>
+git add "*.css"
+
+<span class="c"># choose hunk by hunk what to stage — the best way to split a messy edit</span>
+git add -p</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git commit</h3>
+    <p class="desc">Record the staged snapshot into history with a message.</p>
+<pre>git commit -m "Add login form validation"
+
+<span class="c"># multi-line message: subject, blank line, body</span>
+git commit -m "Fix cart total rounding" -m "Prices were floored instead of rounded to 2dp."
+
+<span class="c"># stage all tracked modifications and commit in one shot</span>
+git commit -am "Tweak footer spacing"
+
+<span class="c"># redo the last commit — fix the message or add forgotten files</span>
+git add forgotten-file.js
+git commit --amend -m "Add login form validation"
+
+<span class="c"># amend without opening an editor or changing the message</span>
+git commit --amend --no-edit</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git diff</h3>
+    <p class="desc">See the actual line-by-line changes, before or after staging.</p>
+<pre><span class="c"># unstaged changes (working tree vs. staging area)</span>
+git diff
+
+<span class="c"># staged changes — exactly what a commit would capture</span>
+git diff --staged
+
+<span class="c"># limit to one file or folder</span>
+git diff src/app.js
+
+<span class="c"># compare two branches</span>
+git diff main..feature-login
+
+<span class="c"># just the file names, or just the counts</span>
+git diff --name-only
+git diff --stat
+
+<span class="c"># highlight moved words instead of whole lines</span>
+git diff --word-diff</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git log</h3>
+    <p class="desc">Browse the commit history, filtered any way you like.</p>
+<pre>git log
+
+<span class="c"># the readable everyday view</span>
+git log --oneline --graph --decorate --all
+
+<span class="c"># last 5 commits with the patch for each</span>
+git log -5 -p
+
+<span class="c"># who changed what, and how much</span>
+git log --stat
+git log --author="Temitope"
+
+<span class="c"># by time or by message content</span>
+git log --since="2 weeks ago" --until="yesterday"
+git log --grep="checkout bug"
+
+<span class="c"># every commit that touched one file, following renames</span>
+git log --follow -- src/utils/date.js
+
+<span class="c"># custom format</span>
+git log --pretty=format:"%h %an %ar - %s"</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git branch</h3>
+    <p class="desc">List, create, rename, and delete branches.</p>
+<pre>git branch                 <span class="c"># local branches, * marks current</span>
+git branch -a              <span class="c"># local + remote-tracking</span>
+git branch -vv             <span class="c"># with last commit and upstream</span>
+
+git branch feature-signup  <span class="c"># create (does not switch)</span>
+git branch -m new-name     <span class="c"># rename current branch</span>
+
+git branch -d old-feature  <span class="c"># delete (refuses if unmerged)</span>
+git branch -D old-feature  <span class="c"># force delete</span>
+
+<span class="c"># which branches are already merged into main?</span>
+git branch --merged main</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git switch / git checkout</h3>
+    <p class="desc">Move between branches. <code>switch</code> is the modern, clearer verb; <code>checkout</code> still works everywhere.</p>
+<pre>git switch main
+git switch -c feature-signup      <span class="c"># create and switch</span>
+git switch -                      <span class="c"># jump back to previous branch</span>
+
+<span class="c"># track a branch that exists only on the remote</span>
+git switch -c hotfix origin/hotfix
+
+<span class="c"># the older equivalents</span>
+git checkout main
+git checkout -b feature-signup
+
+<span class="c"># inspect an old commit without changing any branch (detached HEAD)</span>
+git checkout a1b2c3d</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git restore</h3>
+    <p class="desc">Throw away local edits or unstage files, without touching your branch pointers.</p>
+<pre><span class="c"># discard unstaged edits to a file — NOT undoable</span>
+git restore index.html
+
+<span class="c"># discard everything unstaged</span>
+git restore .
+
+<span class="c"># unstage a file but keep the edits</span>
+git restore --staged index.html
+
+<span class="c"># pull a file back as it was in another commit or branch</span>
+git restore --source=HEAD~3 src/app.js
+git restore --source=main config.json</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git pull</h3>
+    <p class="desc">Fetch from the remote and integrate into your current branch.</p>
+<pre>git pull
+
+<span class="c"># explicit remote and branch</span>
+git pull origin main
+
+<span class="c"># rebase your local commits on top instead of creating a merge commit</span>
+git pull --rebase
+
+<span class="c"># refuse to create a merge commit — fail instead if histories diverged</span>
+git pull --ff-only</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git push</h3>
+    <p class="desc">Send your commits to the remote.</p>
+<pre>git push
+
+<span class="c"># first push of a new branch — sets the upstream so plain `git push` works after</span>
+git push -u origin feature-signup
+
+<span class="c"># push tags</span>
+git push origin v1.2.0
+git push --tags
+
+<span class="c"># delete a remote branch</span>
+git push origin --delete old-feature
+
+<span class="c"># after a rebase/amend: safe force — aborts if someone else pushed meanwhile</span>
+git push --force-with-lease</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git fetch</h3>
+    <p class="desc">Download remote changes without touching your working tree. The safe way to look before you leap.</p>
+<pre>git fetch
+git fetch origin main
+
+<span class="c"># update everything and delete stale remote-tracking branches</span>
+git fetch --all --prune
+
+<span class="c"># see what arrived before merging it</span>
+git fetch
+git log HEAD..origin/main --oneline</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git merge</h3>
+    <p class="desc">Join another branch's history into your current branch.</p>
+<pre>git switch main
+git merge feature-signup
+
+<span class="c"># always create a merge commit, even when a fast-forward is possible</span>
+git merge --no-ff feature-signup
+
+<span class="c"># collapse the whole branch into one staged change to commit yourself</span>
+git merge --squash feature-signup
+git commit -m "Add signup flow"
+
+<span class="c"># conflicts: fix the files, then</span>
+git add resolved-file.js
+git merge --continue
+
+<span class="c"># or back out entirely</span>
+git merge --abort</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git remote</h3>
+    <p class="desc">Manage the named URLs your repo talks to.</p>
+<pre>git remote -v                                    <span class="c"># list with URLs</span>
+git remote add origin git@github.com:user/repo.git
+git remote set-url origin git@github.com:user/new.git
+git remote rename origin upstream
+git remote remove upstream
+git remote show origin                           <span class="c"># detailed state</span>
+
+<span class="c"># drop remote-tracking branches that no longer exist upstream</span>
+git remote prune origin</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git stash</h3>
+    <p class="desc">Park unfinished work on a shelf so you can switch context, then bring it back.</p>
+<pre>git stash                                <span class="c"># shelve tracked modifications</span>
+git stash push -m "half-done navbar"     <span class="c"># with a label</span>
+git stash -u                             <span class="c"># include untracked files</span>
+
+git stash list                           <span class="c"># stash@{0}, stash@{1}, …</span>
+git stash show -p stash@{0}              <span class="c"># preview the diff</span>
+
+git stash pop                            <span class="c"># restore newest and remove it</span>
+git stash apply stash@{2}                <span class="c"># restore but keep the entry</span>
+git stash drop stash@{0}
+git stash clear                          <span class="c"># delete all stashes</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git tag</h3>
+    <p class="desc">Mark a commit permanently — almost always a release.</p>
+<pre>git tag                                   <span class="c"># list</span>
+git tag v1.0.0                            <span class="c"># lightweight</span>
+git tag -a v1.0.0 -m "First release"      <span class="c"># annotated (preferred)</span>
+
+<span class="c"># tag a commit from the past</span>
+git tag -a v0.9.0 a1b2c3d -m "Beta"
+
+git push origin v1.0.0
+git tag -d v1.0.0                         <span class="c"># delete locally</span>
+git push origin --delete v1.0.0           <span class="c"># delete on the remote</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git rm / git mv</h3>
+    <p class="desc">Delete or rename files so git records the change properly.</p>
+<pre>git rm secret.txt                 <span class="c"># delete from disk and stage it</span>
+git rm --cached secret.txt        <span class="c"># stop tracking, keep the file on disk</span>
+git rm -r build/                  <span class="c"># recursive</span>
+
+git mv old-name.js new-name.js    <span class="c"># rename + stage in one move</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git show</h3>
+    <p class="desc">Inspect a single commit, tag, or file version.</p>
+<pre>git show                          <span class="c"># the most recent commit</span>
+git show a1b2c3d
+git show HEAD~2                   <span class="c"># two commits back</span>
+git show v1.0.0
+
+<span class="c"># a file exactly as it looked in some commit</span>
+git show HEAD~3:src/app.js
+
+<span class="c"># names only</span>
+git show --stat a1b2c3d</pre>
+  </div>
+</section>
+
+<!-- ============================= ADVANCED ============================= -->
+<section id="advanced">
+  <div class="section-head">
+    <h2>Advanced Commands</h2>
+    <span class="tag">Rewrite &amp; rescue</span>
+  </div>
+  <p>History surgery, forensic tools, and escape hatches. Several of these rewrite commits — avoid rewriting anything already pushed to a shared branch.</p>
+
+  <div class="cmd">
+    <h3>git rebase</h3>
+    <p class="desc">Replay your commits on top of another branch to keep history linear.</p>
+<pre><span class="c"># move your feature branch onto the latest main</span>
+git switch feature-signup
+git rebase main
+
+<span class="c"># conflicts: fix files, stage, continue</span>
+git add resolved.js
+git rebase --continue
+git rebase --skip
+git rebase --abort            <span class="c"># bail out, nothing lost</span>
+
+<span class="c"># rebase onto a different base entirely</span>
+git rebase --onto main develop feature-signup
+
+<span class="c"># auto-apply fixup!/squash! commits during an interactive rebase</span>
+git rebase -i --autosquash main</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git rebase -i (interactive)</h3>
+    <p class="desc">Rewrite the last N commits — reorder, reword, squash, split, or drop them.</p>
+<pre><span class="c"># edit the last 4 commits</span>
+git rebase -i HEAD~4
+
+<span class="c"># the editor opens a to-do list; change the verb on each line:</span>
+<span class="c">#   pick   a1b2c3d Add signup form      <- keep as is</span>
+<span class="c">#   reword b2c3d4e Fx typo             <- keep, edit message</span>
+<span class="c">#   squash c3d4e5f Fix typo again      <- fold into the commit above</span>
+<span class="c">#   fixup  d4e5f6a More fixes          <- fold in, discard its message</span>
+<span class="c">#   edit   e5f6a7b Big commit          <- stop here so you can amend/split</span>
+<span class="c">#   drop   f6a7b8c Debug logging       <- delete the commit</span>
+
+<span class="c"># at an `edit` stop: change things, then</span>
+git commit --amend
+git rebase --continue
+
+<span class="c"># everything since branching off main</span>
+git rebase -i main</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git cherry-pick</h3>
+    <p class="desc">Copy specific commits from one branch onto another.</p>
+<pre>git cherry-pick a1b2c3d
+
+<span class="c"># several at once, or an inclusive range</span>
+git cherry-pick a1b2c3d e5f6a7b
+git cherry-pick a1b2c3d^..e5f6a7b
+
+<span class="c"># apply the change but let you commit it yourself</span>
+git cherry-pick -n a1b2c3d
+
+<span class="c"># append "(cherry picked from …)" to the message</span>
+git cherry-pick -x a1b2c3d
+
+git cherry-pick --continue
+git cherry-pick --abort</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git reset</h3>
+    <p class="desc">Move the branch pointer backwards. The mode decides what happens to your files.</p>
+<pre><span class="c"># undo the last commit, keep changes staged</span>
+git reset --soft HEAD~1
+
+<span class="c"># undo the last commit, keep changes unstaged (the default)</span>
+git reset --mixed HEAD~1
+git reset HEAD~1
+
+<span class="c"># undo the last commit AND destroy the changes — irreversible</span>
+git reset --hard HEAD~1
+
+<span class="c"># unstage everything, keep edits</span>
+git reset
+
+<span class="c"># throw away local commits and match the remote exactly</span>
+git fetch origin
+git reset --hard origin/main</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git revert</h3>
+    <p class="desc">Undo a commit by adding a new inverse commit. Safe on shared branches, unlike <code>reset</code>.</p>
+<pre>git revert a1b2c3d
+
+<span class="c"># revert several, oldest first</span>
+git revert a1b2c3d e5f6a7b
+
+<span class="c"># stage the inverse without committing yet</span>
+git revert -n a1b2c3d
+
+<span class="c"># reverting a merge: -m 1 keeps the first parent (usually main)</span>
+git revert -m 1 &lt;merge-sha&gt;</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git reflog</h3>
+    <p class="desc">Git's black box recorder — every position HEAD has held. This is how you recover "lost" commits after a bad reset or rebase.</p>
+<pre>git reflog
+
+<span class="c"># typical output</span>
+<span class="c">#   a1b2c3d HEAD@{0}: reset: moving to HEAD~3</span>
+<span class="c">#   e5f6a7b HEAD@{1}: commit: Add payment module   &lt;- the work you thought was gone</span>
+
+<span class="c"># get it back</span>
+git reset --hard HEAD@{1}
+
+<span class="c"># or park it on a rescue branch instead</span>
+git branch recovered e5f6a7b
+
+<span class="c"># reflog for one branch</span>
+git reflog show feature-signup</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git bisect</h3>
+    <p class="desc">Binary-search the history to find the exact commit that introduced a bug.</p>
+<pre>git bisect start
+git bisect bad                 <span class="c"># current commit is broken</span>
+git bisect good v1.0.0         <span class="c"># this old tag was fine</span>
+
+<span class="c"># git checks out a midpoint; test it, then say which it is</span>
+git bisect good
+git bisect bad
+
+<span class="c"># …repeat until git prints "&lt;sha&gt; is the first bad commit"</span>
+git bisect reset               <span class="c"># return to where you started</span>
+
+<span class="c"># fully automatic: a script exiting non-zero marks a commit bad</span>
+git bisect start HEAD v1.0.0
+git bisect run npm test</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git blame</h3>
+    <p class="desc">Show who last changed each line, and in which commit.</p>
+<pre>git blame src/app.js
+
+<span class="c"># only lines 40–60</span>
+git blame -L 40,60 src/app.js
+
+<span class="c"># see past pure whitespace/formatting churn</span>
+git blame -w src/app.js
+
+<span class="c"># follow lines through moves and copies to the real author</span>
+git blame -w -C -C -M src/app.js
+
+<span class="c"># blame the file as it was before a given commit</span>
+git blame a1b2c3d^ -- src/app.js</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git worktree</h3>
+    <p class="desc">Check out several branches into separate folders from one repo — no stashing, no re-cloning.</p>
+<pre><span class="c"># open an existing branch in a sibling directory</span>
+git worktree add ../hotfix-tree hotfix
+
+<span class="c"># create a new branch and a worktree for it at once</span>
+git worktree add -b review-pr ../review-tree origin/feature-x
+
+git worktree list
+git worktree remove ../hotfix-tree
+git worktree prune              <span class="c"># clean up records of deleted folders</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git submodule</h3>
+    <p class="desc">Embed another repository inside yours at a pinned commit.</p>
+<pre>git submodule add https://github.com/user/lib.git vendor/lib
+
+<span class="c"># after cloning a repo that has submodules</span>
+git submodule update --init --recursive
+
+<span class="c"># or do it during the clone</span>
+git clone --recurse-submodules https://github.com/user/repo.git
+
+<span class="c"># bump every submodule to its latest upstream commit</span>
+git submodule update --remote --merge
+
+<span class="c"># run a command inside each one</span>
+git submodule foreach 'git switch main &amp;&amp; git pull'</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git clean</h3>
+    <p class="desc">Delete untracked files. Destructive — always dry-run first.</p>
+<pre>git clean -n            <span class="c"># dry run: list what WOULD be deleted</span>
+git clean -f            <span class="c"># delete untracked files</span>
+git clean -fd           <span class="c"># files and directories</span>
+git clean -fdx          <span class="c"># also ignored files (node_modules, build/, .env!)</span>
+git clean -i            <span class="c"># interactive, choose item by item</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git rev-parse / git describe</h3>
+    <p class="desc">Resolve names to SHAs and give a commit a human-readable version label — the plumbing behind most scripts and CI pipelines.</p>
+<pre>git rev-parse HEAD                    <span class="c"># full SHA</span>
+git rev-parse --short HEAD            <span class="c"># abbreviated</span>
+git rev-parse --abbrev-ref HEAD       <span class="c"># current branch name</span>
+git rev-parse --show-toplevel         <span class="c"># repo root path</span>
+
+<span class="c"># "v1.2.0-14-ga1b2c3d" = 14 commits after tag v1.2.0</span>
+git describe --tags
+git describe --tags --always --dirty</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git format-patch / git am</h3>
+    <p class="desc">Turn commits into <code>.patch</code> files and apply them elsewhere — email-style collaboration, no shared remote needed.</p>
+<pre><span class="c"># export the last 3 commits as numbered patch files</span>
+git format-patch -3
+
+<span class="c"># everything your branch adds over main, into ./patches</span>
+git format-patch main -o patches/
+
+<span class="c"># on the other machine: apply them as real commits</span>
+git am patches/0001-Add-login.patch
+git am patches/*.patch
+git am --abort
+
+<span class="c"># plain diff, applied without committing</span>
+git diff main > change.diff
+git apply change.diff
+git apply --check change.diff        <span class="c"># test first</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git sparse-checkout</h3>
+    <p class="desc">Work with only part of a huge monorepo on disk.</p>
+<pre>git clone --filter=blob:none --sparse https://github.com/user/monorepo.git
+cd monorepo
+
+git sparse-checkout set apps/web packages/ui
+git sparse-checkout list
+git sparse-checkout add packages/api
+git sparse-checkout disable          <span class="c"># back to the full tree</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git range-diff / git shortlog</h3>
+    <p class="desc">Compare two versions of the same series, and summarize contributions.</p>
+<pre><span class="c"># what actually changed between the old branch and the rebased one?</span>
+git range-diff main old-feature new-feature
+git range-diff @{u}...HEAD           <span class="c"># before vs. after your rebase</span>
+
+<span class="c"># commits grouped by author, counts only</span>
+git shortlog -sn
+git shortlog -sn --since="1 month ago"</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git filter-repo</h3>
+    <p class="desc">Rewrite entire history — strip a leaked secret or purge a huge file from every commit. Replaces the deprecated <code>filter-branch</code>. Requires a separate install, and rewrites <em>every</em> SHA.</p>
+<pre><span class="c"># always work on a fresh clone</span>
+git clone --mirror https://github.com/user/repo.git
+cd repo.git
+
+<span class="c"># remove a file from all of history</span>
+git filter-repo --path .env --invert-paths
+git filter-repo --path secrets/ --invert-paths
+
+<span class="c"># keep only one subdirectory as the new repo root</span>
+git filter-repo --subdirectory-filter apps/web
+
+<span class="c"># fix an email across every commit</span>
+git filter-repo --mailmap mailmap.txt
+
+<span class="c"># then force-push, and tell every collaborator to re-clone</span>
+git push --force --all</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git rerere</h3>
+    <p class="desc">"Reuse recorded resolution" — git memorizes how you solved a conflict and replays it automatically next time. Invaluable on long-lived rebases.</p>
+<pre>git config --global rerere.enabled true
+
+<span class="c"># resolve a conflict once as usual; git records it silently</span>
+<span class="c"># next time the same conflict appears it is resolved for you</span>
+
+git rerere status
+git rerere diff
+git rerere forget path/to/file.js    <span class="c"># drop a bad recorded resolution</span></pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git archive / git bundle</h3>
+    <p class="desc">Export a snapshot without the <code>.git</code> folder, or pack a whole repo into one transferable file.</p>
+<pre><span class="c"># zip/tarball of a tag or branch — clean release artifact</span>
+git archive --format=zip -o site-v1.0.zip v1.0.0
+git archive HEAD | tar -x -C /var/www/deploy
+
+<span class="c"># the entire repo as a single file you can email or copy to a USB stick</span>
+git bundle create repo.bundle --all
+git clone repo.bundle restored-repo
+
+<span class="c"># bundle only what is new since a tag</span>
+git bundle create update.bundle v1.0.0..main</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git gc / git fsck / git count-objects</h3>
+    <p class="desc">Maintenance: compact the object store, check integrity, find orphaned commits.</p>
+<pre>git gc                       <span class="c"># garbage collect and repack</span>
+git gc --aggressive --prune=now
+
+git count-objects -vH        <span class="c"># how big is this repo, really?</span>
+
+git fsck                     <span class="c"># verify object integrity</span>
+git fsck --lost-found        <span class="c"># surface dangling commits/blobs</span>
+
+<span class="c"># commits with no branch pointing at them — reflog's last resort</span>
+git fsck --unreachable --no-reflogs</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git hooks</h3>
+    <p class="desc">Scripts git runs automatically at lifecycle points. They live in <code>.git/hooks/</code> and are not committed unless you point git elsewhere.</p>
+<pre>ls .git/hooks/               <span class="c"># pre-commit, commit-msg, pre-push, …</span>
+
+<span class="c"># create a pre-commit hook that blocks a bad commit</span>
+cat > .git/hooks/pre-commit &lt;&lt;'EOF'
+#!/bin/sh
+npm run lint || exit 1
+EOF
+chmod +x .git/hooks/pre-commit
+
+<span class="c"># share hooks with the team: commit them, then point git at the folder</span>
+git config core.hooksPath .githooks
+
+<span class="c"># skip hooks for one commit</span>
+git commit --no-verify -m "WIP"</pre>
+  </div>
+
+  <div class="cmd">
+    <h3>git notes / git replace</h3>
+    <p class="desc">Attach metadata to existing commits, or substitute one object for another, without rewriting history.</p>
+<pre>git notes add -m "Reviewed by QA on 2026-08-12" a1b2c3d
+git notes show a1b2c3d
+git log --show-notes
+
+<span class="c"># notes are not pushed by default</span>
+git push origin refs/notes/commits
+
+<span class="c"># transparently swap one commit for another (grafts, history stitching)</span>
+git replace a1b2c3d e5f6a7b
+git replace -l
+git replace -d a1b2c3d</pre>
+  </div>
+</section>
+
+<footer>
+  Tip: almost every command here has a manual page — <code>git help rebase</code> or <code>git rebase --help</code>. When something goes wrong, <code>git reflog</code> is usually the way back.
+</footer>
+
+</div>
+
+<script>
+  const search = document.getElementById('search');
+  const empty  = document.getElementById('empty');
+  const cards  = Array.from(document.querySelectorAll('.cmd'));
+  const sections = Array.from(document.querySelectorAll('section'));
+
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const match = !q || card.textContent.toLowerCase().includes(q);
+      card.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+
+    // hide a section heading when nothing under it matched
+    sections.forEach(sec => {
+      const any = sec.querySelector('.cmd:not(.hidden)');
+      sec.classList.toggle('hidden', !any);
+    });
+
+    empty.classList.toggle('show', visible === 0);
+  });
+</script>
+</body>
+</html>

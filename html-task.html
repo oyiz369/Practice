@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📘 Assignment: Bloom &amp; Co. Creative Studio</title>
+    <style>
+        /* ----- styles for the assignment handout itself ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f3f0;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            line-height: 1.7;
+            color: #1e1e2a;
+        }
+
+        .assignment-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07);
+            padding: 2.5rem 3rem;
+        }
+
+        @media (max-width: 600px) {
+            .assignment-wrapper {
+                padding: 1.5rem;
+            }
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            letter-spacing: -0.02em;
+            border-bottom: 3px solid #c47a7a;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5a5a6e;
+            margin-left: auto;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 2.2rem;
+            margin-bottom: 1rem;
+            color: #1e1e2a;
+            border-left: 6px solid #c47a7a;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 1.6rem;
+            margin-bottom: 0.4rem;
+            color: #2d2d40;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #c47a7a;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin-right: 0.4rem;
+        }
+
+        .badge.green {
+            background: #2d7a5a;
+        }
+        .badge.blue {
+            background: #4a7a9c;
+        }
+        .badge.gold {
+            background: #b8860b;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: #ece6e0;
+            margin: 2rem 0;
+        }
+
+        ul,
+        ol {
+            padding-left: 1.6rem;
+            margin: 0.6rem 0 1rem 0;
+        }
+
+        li {
+            margin-bottom: 0.3rem;
+        }
+
+        .hint-block {
+            background: #f8f6f3;
+            border-radius: 16px;
+            padding: 1.2rem 1.8rem;
+            margin: 1rem 0 1.6rem 0;
+            border-left: 4px solid #c47a7a;
+        }
+
+        .hint-block strong {
+            color: #a15a5a;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: #eeeae6;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #1e1e2a;
+        }
+
+        pre {
+            background: #1e1e2a;
+            color: #e4e0da;
+            padding: 1.2rem 1.6rem;
+            border-radius: 16px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            margin: 1rem 0 1.6rem 0;
+            tab-size: 2;
+        }
+
+        pre .comment {
+            color: #8a8a9e;
+        }
+
+        details {
+            margin: 1.8rem 0 0.5rem 0;
+            border: 2px solid #e8e2da;
+            border-radius: 18px;
+            padding: 0.8rem 1.5rem 1.5rem 1.5rem;
+            background: #fcfbf9;
+            transition: border-color 0.2s;
+        }
+
+        details:hover {
+            border-color: #c47a7a;
+        }
+
+        summary {
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.4rem 0;
+            color: #1e1e2a;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        summary::-webkit-details-marker {
+            color: #c47a7a;
+        }
+
+        .solution-code {
+            margin-top: 1.2rem;
+        }
+
+        .solution-code pre {
+            background: #0f0f17;
+            color: #e8e4de;
+            border-radius: 14px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e8e2da;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.95rem;
+            color: #5a5a6e;
+        }
+
+        .footer-note a {
+            color: #c47a7a;
+            text-decoration: none;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            .hint-block {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="assignment-wrapper">
+
+        <!-- ===== TITLE ===== -->
+        <h1>
+            🎨 Bloom &amp; Co. — Creative Studio
+            <small>HTML / CSS Assignment</small>
+        </h1>
+
+        <!-- ===== BRIEF ===== -->
+        <section>
+            <h2>📋 Project Brief</h2>
+            <p><strong>Objective:</strong> Recreate a beautiful, multi-section marketing page for a creative studio. You will be given a completed reference file (see the end of this document). Your job is to rebuild it from scratch <em>or</em> modify it heavily while following the task list below. Focus on semantic HTML, modern CSS layout (Flexbox / Grid), and polished visual design.</p>
+
+            <hr />
+
+            <h3>🟢 Starter Tasks <span class="badge">Core Structure</span></h3>
+            <p><em>These tasks ensure you understand the basic skeleton and content flow.</em></p>
+            <ol>
+                <li><strong>Semantic HTML:</strong> Build the page structure using only semantic HTML5 elements (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;footer&gt;</code>). Do <em>not</em> use <code>&lt;div&gt;</code> for everything!</li>
+                <li><strong>Hero Section:</strong> Create the main hero area with a large heading, a paragraph, and two call-to-action buttons. Make sure the heading uses a mix of normal and italic text (e.g., “Crafting <em>beautiful</em> digital experiences”).</li>
+                <li><strong>Services Section:</strong> Create a 4‑column card layout displaying the services (Brand Identity, Web Design, etc.). Each card must have an icon, a title, and a short description.</li>
+                <li><strong>Navigation:</strong> Build a horizontal navigation bar with links to “Services”, “Work”, “Testimonials”, and a special “Let’s talk” button style.</li>
+                <li><strong>Footer:</strong> Create a footer that includes a copyright notice and a row of social media icon links.</li>
+            </ol>
+
+            <h3>🧠 Intermediate Tasks <span class="badge green">Styling &amp; Layout</span></h3>
+            <p><em>These tasks focus on making the page look polished and professionally aligned.</em></p>
+            <ol start="6">
+                <li><strong>Typography System:</strong> Import and apply two Google Fonts (e.g., <em>Playfair Display</em> for headings and <em>Inter</em> for body text). Ensure a clear visual hierarchy between H1, H2, H3, and paragraph text.</li>
+                <li><strong>Color Palette:</strong> Implement a custom color palette using CSS Custom Properties (<code>:root</code>). Define variables for: Background, Surface (white cards), Primary Text, Muted Text, Accent Color, and Border Color.</li>
+                <li><strong>CSS Grid Hero:</strong> Lay out the Hero section using <strong>CSS Grid</strong> to place the text content on the left and a decorative shape / emoji on the right. Make it responsive so it stacks on mobile.</li>
+                <li><strong>Card Hover Effects:</strong> Add smooth transitions to the service cards. On hover, the card should lift slightly (<code>translateY</code>) and change its box-shadow.</li>
+                <li><strong>Responsive Design:</strong> Use media queries to ensure the layout adapts to tablet and mobile screens. The 4‑column cards must become 2 columns on tablet and 1 column on mobile.</li>
+            </ol>
+
+            <h3>🚀 Advanced Challenges <span class="badge gold">UI Polish &amp; Interactivity</span></h3>
+            <p><em>These tasks are for students who finish early and want to push their CSS / JS skills further.</em></p>
+            <ol start="11">
+                <li><strong>Gallery Overlay:</strong> Build the “Selected Work” gallery. On hover, a dark overlay with a text label should slide up from the bottom of each image block (using <code>transform</code> and <code>opacity</code>).</li>
+                <li><strong>Sticky Navigation:</strong> Make the main navigation bar stick to the top of the viewport when the user scrolls down (using <code>position: sticky</code>).</li>
+                <li><strong>Interactive CTA:</strong> Style the final Call‑to‑Action section with a dark background. Add a hover effect to the button where the background and text colors invert smoothly.</li>
+                <li><strong>CSS Animations:</strong> Add a subtle “fade‑in‑up” animation to the service cards so they fade and slide into view when the page loads (use <code>@keyframes</code> and <code>animation-delay</code>).</li>
+                <li><strong>Contact Form (Bonus):</strong> Inside the CTA section, replace the single button with a mini 2‑field form (Name + Email) and a “Submit” button. Style the inputs to match the brand’s aesthetic (rounded borders, focus states).</li>
+            </ol>
+        </section>
+
+        <hr />
+
+        <!-- ===== HINT SHEET ===== -->
+        <section>
+            <h2>🧩 Hint Sheet</h2>
+            <p><em>Try to solve it with the Starter hints first. If you are totally stuck, peek at the Intermediate hints. Only look at the Advanced snippets if you are completely blocked!</em></p>
+
+            <!-- Starter Hints -->
+            <h3>🟢 Starter Hints</h3>
+            <div class="hint-block">
+                <strong>Hint 1 – Semantic HTML Shell:</strong><br />
+                Start with this exact skeleton before adding content:
+                <pre>&lt;body&gt;
+  &lt;header&gt; &lt;!-- Nav goes here --&gt; &lt;/header&gt;
+  &lt;main&gt;
+    &lt;section id="home"&gt; &lt;!-- Hero --&gt; &lt;/section&gt;
+    &lt;section id="services"&gt; &lt;!-- Cards --&gt; &lt;/section&gt;
+    &lt;section id="work"&gt; &lt;!-- Gallery --&gt; &lt;/section&gt;
+    &lt;section id="testimonials"&gt; &lt;!-- Quotes --&gt; &lt;/section&gt;
+    &lt;section id="contact"&gt; &lt;!-- CTA --&gt; &lt;/section&gt;
+  &lt;/main&gt;
+  &lt;footer&gt; &lt;!-- Copyright + Socials --&gt; &lt;/footer&gt;
+&lt;/body&gt;</pre>
+            </div>
+            <div class="hint-block">
+                <strong>Hint 2 – Hero Italic Text:</strong><br />
+                To get the mixed‑style heading (e.g., <em>Crafting beautiful digital</em>), wrap the word you want italicized in a <code>&lt;span&gt;</code> and give it a class or style it with <code>font-style: italic;</code>.
+            </div>
+            <div class="hint-block">
+                <strong>Hint 3 – The “Cards” Layout:</strong><br />
+                Instead of using a table, create a <code>&lt;div&gt;</code> container with a class of <code>cards-grid</code>. Inside, put four <code>&lt;div&gt;</code> elements (the cards). Each card contains: an icon (emoji or HTML entity), an <code>&lt;h3&gt;</code> title, and a <code>&lt;p&gt;</code> description.
+            </div>
+            <div class="hint-block">
+                <strong>Hint 4 – Navigation Links:</strong><br />
+                Wrap your links in a <code>&lt;nav&gt;</code> tag. Use an unordered list <code>&lt;ul&gt;</code> with <code>&lt;li&gt;</code> items for each link. This is more accessible than just using <code>&lt;a&gt;</code> tags in a row. Style the list with <code>list-style: none</code> and use <code>display: flex</code> on the <code>&lt;ul&gt;</code>.
+            </div>
+
+            <!-- Intermediate Hints -->
+            <h3>🧠 Intermediate Hints</h3>
+            <div class="hint-block">
+                <strong>Hint 6 – Google Fonts:</strong><br />
+                1. Go to fonts.google.com and search for <strong>Inter</strong> and <strong>Playfair Display</strong>.<br />
+                2. Copy the <code>&lt;link&gt;</code> tag and paste it into the <code>&lt;head&gt;</code> of your HTML.<br />
+                3. In your CSS: apply <code>font-family: 'Inter', sans-serif;</code> to the <code>body</code>, and <code>font-family: 'Playfair Display', serif;</code> to your <code>h1, h2, h3</code>.
+            </div>
+            <div class="hint-block">
+                <strong>Hint 7 – CSS Variables (Custom Properties):</strong><br />
+                Put this at the very top of your CSS (under the reset):
+                <pre>:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --text: #1e1e2a;
+  --text-muted: #5a5a6e;
+  --accent: #c47a7a;
+  --border: #e8e2da;
+}</pre>
+                Use them like this: <code>background-color: var(--bg);</code>
+            </div>
+            <div class="hint-block">
+                <strong>Hint 8 – CSS Grid Hero Section:</strong><br />
+                To make the text on the left and the illustration on the right:
+                <pre>.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}</pre>
+                For the illustration, just put a large emoji (like 🌸 or ✦) inside a <code>&lt;div&gt;</code> with a background color and <code>border-radius</code>.
+            </div>
+            <div class="hint-block">
+                <strong>Hint 9 – Card Hover Effects:</strong><br />
+                Use <code>transition</code> on the base state, and <code>transform</code> on <code>:hover</code>:
+                <pre>.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}</pre>
+            </div>
+            <div class="hint-block">
+                <strong>Hint 10 – Responsive (Media Queries):</strong><br />
+                Add these at the <em>bottom</em> of your CSS file:
+                <pre>/* Tablets */
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: 1fr 1fr; }
+}
+/* Mobile */
+@media (max-width: 500px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  header { flex-direction: column; }
+}</pre>
+            </div>
+
+            <!-- Advanced Hints -->
+            <h3>🚀 Advanced Hints</h3>
+            <div class="hint-block">
+                <strong>Hint 11 – Gallery Overlay Sliding Up:</strong><br />
+                Use <code>position: relative</code> on the parent, and <code>position: absolute</code> on the label.
+                <pre>.gallery-item {
+  position: relative;
+  overflow: hidden;
+}
+.gallery-item .label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover .label {
+  transform: translateY(0);
+}</pre>
+            </div>
+            <div class="hint-block">
+                <strong>Hint 12 – Sticky Navigation:</strong><br />
+                You don’t need JavaScript! Apply this to your <code>&lt;header&gt;</code>:
+                <pre>header {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg);
+  z-index: 100;
+}</pre>
+            </div>
+            <div class="hint-block">
+                <strong>Hint 13 – Fancy CTA Button Hover:</strong><br />
+                If your CTA section has a dark background, make the button white. On hover, swap them:
+                <pre>.cta-box .btn {
+  background: white;
+  color: black;
+  transition: 0.3s ease;
+}
+.cta-box .btn:hover {
+  background: transparent;
+  color: white;
+  border-color: white;
+}</pre>
+            </div>
+            <div class="hint-block">
+                <strong>Hint 14 – Fade‑in‑up Animation on Load:</strong><br />
+                Define the keyframes, then apply to the cards with staggered delays:
+                <pre>@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.card {
+  animation: fadeUp 0.6s ease forwards;
+  opacity: 0;
+}
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }</pre>
+            </div>
+
+            <div class="hint-block" style="border-left-color: #2d7a5a; background: #f0f6f2;">
+                <strong>🧰 Stuck on a Specific Problem?</strong><br />
+                • <strong>Grid items are squished:</strong> Use <code>1fr</code> or <code>minmax()</code> in <code>grid-template-columns</code>.<br />
+                • <strong>Flex items won’t center:</strong> On the parent: <code>display: flex; justify-content: center; align-items: center;</code><br />
+                • <strong>Padding breaks widths:</strong> Add <code>box-sizing: border-box;</code> to your global reset (<code>*</code>).<br />
+                • <strong>Hover effects are instant:</strong> You forgot <code>transition</code> on the base state.<br />
+                • <strong>Google Fonts aren’t loading:</strong> Check the <code>&lt;link&gt;</code> tag is in the <code>&lt;head&gt;</code> and you have internet.
+            </div>
+        </section>
+
+        <hr />
+
+        <!-- ===== REFERENCE SOLUTION ===== -->
+        <section>
+            <h2>📂 Reference Solution</h2>
+            <p><em>This is the complete “Bloom &amp; Co.” page. Use it to check your work or for inspiration — but try to build it yourself first!</em></p>
+
+            <details>
+                <summary>📄 Click to reveal the full reference code (peek only if stuck!)</summary>
+                <div class="solution-code">
+                    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;Bloom &amp; Co. — Creative Studio&lt;/title&gt;
+
+    &lt;!-- Google Fonts --&gt;
+    &lt;link rel="preconnect" href="https://fonts.googleapis.com" /&gt;
+    &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" /&gt;
+
+    &lt;style&gt;
+        /* ----- reset &amp; base ----- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #faf8f5;
+            --surface: #ffffff;
+            --text: #1e1e2a;
+            --text-muted: #5a5a6e;
+            --accent: #c47a7a;
+            --accent-light: #f0dede;
+            --accent-dark: #a15a5a;
+            --border: #e8e2da;
+            --shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            --radius: 20px;
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ----- typography ----- */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.8rem, 8vw, 4.8rem);
+            font-style: italic;
+            color: var(--text);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        p {
+            color: var(--text-muted);
+            max-width: 60ch;
+        }
+
+        .accent-text {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        /* ----- buttons &amp; links ----- */
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+            background: var(--text);
+            color: #fff;
+        }
+
+        .btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(196, 122, 122, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-outline:hover {
+            background: var(--text);
+            color: #fff;
+            border-color: var(--text);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ----- header / nav ----- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-style: italic;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--text);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ----- hero ----- */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 2rem 0 4rem 0;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image .illustration {
+            width: 100%;
+            max-width: 440px;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(145deg, var(--accent-light), #f5e8e0);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image .illustration:hover {
+            transform: scale(1.01) rotate(1deg);
+            box-shadow: 0 20px 50px rgba(196, 122, 122, 0.15);
+        }
+
+        .hero-image .illustration::after {
+            content: '✦';
+            position: absolute;
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.2;
+            top: 10%;
+            right: 12%;
+        }
+
+        /* ----- section shared ----- */
+        section {
+            margin: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3.5rem auto;
+        }
+
+        .section-header p {
+            margin: 0 auto;
+        }
+
+        /* ----- services / cards ----- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 2.2rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(232, 226, 218, 0.3);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 56px rgba(0, 0, 0, 0.07);
+            border-color: var(--accent-light);
+        }
+
+        .card .icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        /* ----- portfolio (gallery) ----- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            cursor: default;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent);
+        }
+
+        .gallery-item .label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 42, 0.7);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            padding: 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            opacity: 0;
+            transition: var(--transition);
+            transform: translateY(8px);
+        }
+
+        .gallery-item:hover .label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ----- testimonials ----- */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 6px solid var(--accent);
+            transition: var(--transition);
+        }
+
+        .testimonial:hover {
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.06);
+        }
+
+        .testimonial blockquote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 0.8rem;
+        }
+
+        .testimonial .author {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .testimonial .role {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ----- contact / cta ----- */
+        .cta-box {
+            background: var(--text);
+            color: #fff;
+            padding: 4rem 3rem;
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.8rem;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+        }
+
+        .cta-box h2 {
+            color: #fff;
+            margin-bottom: 0;
+        }
+
+        .cta-box p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 50ch;
+        }
+
+        .cta-box .btn {
+            background: #fff;
+            color: var(--text);
+        }
+
+        .cta-box .btn:hover {
+            background: var(--accent-light);
+            color: var(--text);
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.15);
+        }
+
+        /* ----- footer ----- */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        footer .socials {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        footer .socials a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        footer .socials a:hover {
+            color: var(--accent);
+        }
+
+        /* ----- responsive ----- */
+        @media (max-width: 860px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-content p {
+                margin: 0 auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-image .illustration {
+                max-width: 300px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .cta-box {
+                padding: 3rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* ----- utilities ----- */
+        .text-center {
+            text-align: center;
+        }
+        .mt-1 {
+            margin-top: 1rem;
+        }
+        .mt-2 {
+            margin-top: 2rem;
+        }
+        .mb-1 {
+            margin-bottom: 1rem;
+        }
+        .gap-1 {
+            gap: 1rem;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div class="container"&gt;
+
+        &lt;!-- ===== HEADER ===== --&gt;
+        &lt;header&gt;
+            &lt;a href="#" class="logo"&gt;Bloom&lt;span&gt;.&lt;/span&gt;&lt;/a&gt;
+            &lt;nav&gt;
+                &lt;a href="#services"&gt;Services&lt;/a&gt;
+                &lt;a href="#work"&gt;Work&lt;/a&gt;
+                &lt;a href="#testimonials"&gt;Testimonials&lt;/a&gt;
+                &lt;a href="#contact" class="btn btn-outline" style="padding:0.5rem 1.5rem;"&gt;Let's talk&lt;/a&gt;
+            &lt;/nav&gt;
+        &lt;/header&gt;
+
+        &lt;!-- ===== HERO ===== --&gt;
+        &lt;section class="hero" id="home"&gt;
+            &lt;div class="hero-content"&gt;
+                &lt;h1&gt;
+                    Crafting &lt;br /&gt;
+                    &lt;span class="accent-text"&gt;beautiful&lt;/span&gt; digital &lt;br /&gt;
+                    experiences.
+                &lt;/h1&gt;
+                &lt;p&gt;
+                    We're a creative studio that blends thoughtful design with
+                    clean code. From brand identity to interactive web experiences —
+                    we bring ideas to life.
+                &lt;/p&gt;
+                &lt;div class="hero-actions"&gt;
+                    &lt;a href="#contact" class="btn"&gt;Start a project&lt;/a&gt;
+                    &lt;a href="#work" class="btn btn-outline"&gt;See our work&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="hero-image"&gt;
+                &lt;div class="illustration"&gt;🌸&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;!-- ===== SERVICES ===== --&gt;
+        &lt;section id="services"&gt;
+            &lt;div class="section-header"&gt;
+                &lt;h2&gt;What we do &lt;span class="accent-text"&gt;·&lt;/span&gt;&lt;/h2&gt;
+                &lt;p&gt;We craft digital products that are as functional as they are beautiful.&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div class="cards-grid"&gt;
+                &lt;div class="card"&gt;
+                    &lt;span class="icon"&gt;🎨&lt;/span&gt;
+                    &lt;h3&gt;Brand Identity&lt;/h3&gt;
+                    &lt;p&gt;Visual systems that tell your story with clarity and personality.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class="card"&gt;
+                    &lt;span class="icon"&gt;💻&lt;/span&gt;
+                    &lt;h3&gt;Web Design&lt;/h3&gt;
+                    &lt;p&gt;Responsive, accessible, and stunning websites built for the modern web.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class="card"&gt;
+                    &lt;span class="icon"&gt;⚡&lt;/span&gt;
+                    &lt;h3&gt;Development&lt;/h3&gt;
+                    &lt;p&gt;Clean, performant code that brings your design to life without compromise.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class="card"&gt;
+                    &lt;span class="icon"&gt;📈&lt;/span&gt;
+                    &lt;h3&gt;Growth Strategy&lt;/h3&gt;
+                    &lt;p&gt;Data-informed creative strategies to help your brand scale and connect.&lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;!-- ===== PORTFOLIO / GALLERY ===== --&gt;
+        &lt;section id="work"&gt;
+            &lt;div class="section-header"&gt;
+                &lt;h2&gt;Selected work &lt;span class="accent-text"&gt;✦&lt;/span&gt;&lt;/h2&gt;
+                &lt;p&gt;A glimpse into projects we're proud of.&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div class="gallery"&gt;
+                &lt;div class="gallery-item"&gt;
+                    🌿
+                    &lt;span class="label"&gt;Botanical Studio&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="gallery-item"&gt;
+                    🏛️
+                    &lt;span class="label"&gt;Heritage Hotel&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="gallery-item"&gt;
+                    🚀
+                    &lt;span class="label"&gt;Launchpad App&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="gallery-item"&gt;
+                    ✨
+                    &lt;span class="label"&gt;Lumière Cosmetics&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="gallery-item"&gt;
+                    📖
+                    &lt;span class="label"&gt;Storyteller Press&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="gallery-item"&gt;
+                    🌊
+                    &lt;span class="label"&gt;Coastal Retreat&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;!-- ===== TESTIMONIALS ===== --&gt;
+        &lt;section id="testimonials"&gt;
+            &lt;div class="section-header"&gt;
+                &lt;h2&gt;Kind words &lt;span class="accent-text"&gt;·&lt;/span&gt;&lt;/h2&gt;
+                &lt;p&gt;What our clients say about working with us.&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div class="testimonial-grid"&gt;
+                &lt;div class="testimonial"&gt;
+                    &lt;blockquote&gt;
+                        “Bloom completely reimagined our brand. The new site
+                        feels like us — but better.”
+                    &lt;/blockquote&gt;
+                    &lt;div class="author"&gt;— Elena V.&lt;/div&gt;
+                    &lt;div class="role"&gt;Founder, Maison &amp; Co.&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="testimonial"&gt;
+                    &lt;blockquote&gt;
+                        “Working with this team was a dream. They listened,
+                        iterated, and delivered something truly special.”
+                    &lt;/blockquote&gt;
+                    &lt;div class="author"&gt;— Marcus T.&lt;/div&gt;
+                    &lt;div class="role"&gt;Creative Director, Studio 91&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="testimonial"&gt;
+                    &lt;blockquote&gt;
+                        “Our conversion rates increased by 40% after the redesign.
+                        Beautiful and effective.”
+                    &lt;/blockquote&gt;
+                    &lt;div class="author"&gt;— Priya K.&lt;/div&gt;
+                    &lt;div class="role"&gt;CEO, Nourish Goods&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;!-- ===== CTA / CONTACT ===== --&gt;
+        &lt;section id="contact"&gt;
+            &lt;div class="cta-box"&gt;
+                &lt;h2&gt;Let's create something &lt;span style="font-style:italic;color:var(--accent-light);"&gt;beautiful&lt;/span&gt; together.&lt;/h2&gt;
+                &lt;p&gt;Have a project in mind? We'd love to hear about it. Reach out and let's make it happen.&lt;/p&gt;
+                &lt;a href="#" class="btn"&gt;Get in touch →&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;!-- ===== FOOTER ===== --&gt;
+        &lt;footer&gt;
+            &lt;span&gt;&amp;copy; 2026 Bloom &amp; Co. — crafted with ✦&lt;/span&gt;
+            &lt;div class="socials"&gt;
+                &lt;a href="#" aria-label="Twitter"&gt;🐦&lt;/a&gt;
+                &lt;a href="#" aria-label="Instagram"&gt;📷&lt;/a&gt;
+                &lt;a href="#" aria-label="Dribbble"&gt;🏀&lt;/a&gt;
+                &lt;a href="#" aria-label="GitHub"&gt;🐙&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/footer&gt;
+
+    &lt;/div&gt;
+    &lt;!-- /.container --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                </div>
+            </details>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer-note">
+            <span>📌 <strong>Submission:</strong> Save your work as <code>index.html</code> and share your live page or zip file.</span>
+            <span>✨ <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">Back to top ↑</a></span>
+        </div>
+
+    </div>
+    <!-- /.assignment-wrapper -->
+</body>
+</html>
